@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><specification xmlns:xalan="http://xml.apache.org/xalan" idlFileName="FileReplicator">
+<module name="com">
+<module name="rti">
+<module name="dds">
+<module name="example">
+<module name="file">
+<module name="messages">
+<const name="MAX_FILE_SEGMENT_SIZE" type="long" value="50000"/>
+<const name="MAX_PATH_COMPONENT_SIZE" type="long" value="1022"/>
+<struct baseClass="" keyedBaseClass="no" kind="struct" name="FileDescription">
+<member boundedStr="yes" enum="no" maxLengthString="(com::rti::dds::example::file::messages::MAX_PATH_COMPONENT_SIZE)" memberId="" name="name" optional="" pointer="no" type="string" visibility=""/>
+<member boundedStr="yes" enum="no" maxLengthString="(com::rti::dds::example::file::messages::MAX_PATH_COMPONENT_SIZE)" memberId="" name="path" optional="" pointer="no" type="string" visibility=""/>
+<member enum="no" memberId="" name="size" optional="" pointer="no" type="longlong" visibility=""/>
+<member enum="no" memberId="" name="lastModifiedDate" optional="" pointer="no" type="longlong" visibility=""/>
+</struct>
+<directive kind="top-level">false</directive>
+<struct baseClass="" keyedBaseClass="no" kind="struct" name="FileSegment">
+<member enum="no" memberId="" name="fileDescription" optional="" pointer="no" type="com::rti::dds::example::file::messages::FileDescription" visibility=""/>
+<member enum="no" memberId="" name="segmentNumber" optional="" pointer="no" type="long" visibility=""/>
+<member enum="no" memberId="" name="totalSegmentCount" optional="" pointer="no" type="long" visibility=""/>
+<member bounded="yes" enum="no" kind="sequence" maxLengthSequence="(com::rti::dds::example::file::messages::MAX_FILE_SEGMENT_SIZE)" memberId="" name="contents" optional="" pointer="no" type="octet" visibility=""/>
+</struct>
+</module>
+</module>
+</module>
+</module>
+</module>
+</module>
+</specification>
