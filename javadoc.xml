@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+<target name="javadoc">
+<javadoc access="private" author="true" classpath="C:\Rti\rti_connext_dds-5.2.0\lib\java\nddsjavad.jar" destdir="docs\javadocs" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.rti.dds.example.file.messages,com.rti.dds.example.util,com.rti.dds.example.file" source="1.4" sourcepath="srcJava" splitindex="true" use="true" version="true"/>
+</target>
+</project>

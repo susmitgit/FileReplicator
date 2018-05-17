@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: build.xml,v 1.8 2008/03/27 15:58:55 ken Exp $
+
+   (c) Copyright, Real-Time Innovations, $Date: 2008/03/27 15:58:55 $.
+   All rights reserved.
+
+   No duplications, whole or partial, manual or electronic, may be made
+   without express written permission.  Any such copies, or
+   revisions thereof, must display this notice unaltered.
+   This code contains trade secrets of Real-Time Innovations, Inc.
+   
+modification history:
+- - - - - - - - - - -
+10a,27mar08,krb Made targets to run the system & topic planners.
+10a,05jul07,krb Added header
+=========================================================================== -->
+
+
+
+<project basedir=".." default="debug.jar" name="FileReplicator">
+
+    <property environment="env" />
+    <property name="ndds.dir" location="${env.NDDSHOME}"/>
+    <property name="rtiddsgen.dev.dir" location="${ndds.dir}"/>
+    <property name="rtiddsgen.resource.dir" location="${rtiddsgen.dev.dir}/resource"/>
+    <property name="objs.debug.dir" location="./ant_objs/debug"/>
+    <property name="objs.release.dir" location="./ant_objs/release"/>
+    <property name="srcJava.dir" location="./srcJava"/>
+    <property name="build.dir" location="./srcJava"/>
+    <property name="lib.dir" location="./lib"/>
+    <property name="external.lib.dir" location="../externallibs"/>
+
+    <property name="rtiddsgen.dev.jar" location="${rtiddsgen.dev.dir}/class/rtiddsgen.jar"/>
+    <property name="idl.file" location="../FileReplicator.idl"/>
+    <property name="nddsjava.jar" location="${ndds.dir}/class/nddsjava.jar"/>
+    <property name="debug.jar.file" location="${lib.dir}/FileReplicatord.jar"/>
+    <property name="release.jar.file" location="${lib.dir}/FileReplicator.jar"/>
+
+    <property name="domain.id" value="6"/>
+    
+    
+    <!-- debug -->
+    <echo message="ndds.dir = ${ndds.dir}"/>
+    <echo message="rtiddsgen.dev.dir = ${rtiddsgen.dev.dir}"/>
+    <echo message="rtiddsgen.resource.dir = ${rtiddsgen.resource.dir}"/>
+    <echo message="idl.file = ${idl.file}"/>
+    
+    
+    <path id="ndds.debug.classpath">
+        <pathelement location="${ndds.dir}/class/nddsjavad.jar"/>
+    </path>
+    
+    <path id="ndds.release.classpath">
+        <pathelement location="${ndds.dir}/class/nddsjava.jar"/>
+    </path>
+    
+    <path id="discovery.test.framework.plus.ndds.release.classpath">
+        <pathelement location="${release.jar.file}"/>
+        <pathelement location="${ndds.dir}/class/nddsjava.jar"/>
+    </path>
+    
+    <target name="prepare"
+            description="create required directories">
+        <mkdir dir="${objs.debug.dir}"/>
+        <mkdir dir="${objs.release.dir}"/>
+        <mkdir dir="${srcJava.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+    </target>
+    
+    <target name="clean"
+            description="clean compiled files (not generated ones)">
+        <delete dir="${objs.debug.dir}"/>
+        <delete dir="${objs.release.dir}"/>
+        <delete file="${debug.jar.file}"/>
+        <delete file="${release.jar.file}"/>
+    </target>
+    
+    <target name="run.rtiddsgen.java"
+            description="run rtiddsgen for Java"
+            depends="prepare">
+        <java jar="${rtiddsgen.dev.jar}" failonerror="true" fork="true">
+            <jvmarg value="-DNDDS_RESOURCE_DIR=${rtiddsgen.resource.dir}"/>
+            <jvmarg value="-DNDDSHOME=${rtiddsgen.dev.dir}"/>
+            <arg value="-d"/>
+            <arg value="${srcJava.dir}"/>
+            <!--arg value="-example"/>
+            <arg value="i86Win32j2sdk1.3"/-->
+            <arg value="-language"/>
+            <arg value="Java"/>
+            <arg value="-corba"/>
+            <arg value="-replace"/>
+            <arg value="${idl.file}"/>
+        </java>
+    </target>
+    
+    
+    <target name="compile.debug" depends="prepare"
+            description="Compile Java debug code">
+        <echo message="Compiling debug Java code"/>
+        <javac destdir="${objs.debug.dir}" srcdir="${srcJava.dir}"
+               debug="on" source="1.5">
+            <compilerarg value="-Xlint:unchecked"/>
+            <classpath>
+                <path refid="ndds.debug.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="debug.jar" depends="compile.debug"
+            description="build java debug jar">
+        <jar basedir="${objs.debug.dir}" jarfile="${debug.jar.file}" 
+             includes="**/*.class" />
+    </target>
+    
+    
+    <target name="compile.release" depends="prepare"
+            description="Compile Java release code">
+        <echo message="Compiling release Java code"/>
+        <javac destdir="${objs.release.dir}" srcdir="${srcJava.dir}"
+               debug="off" optimize="on" source="1.5">
+            <compilerarg value="-Xlint:unchecked"/>
+            <classpath>
+                <path refid="ndds.release.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="release.jar" depends="compile.release"
+            description="build java release jar">
+        <jar basedir="${objs.release.dir}" jarfile="${release.jar.file}" 
+             includes="**/*.class" />
+    </target>
+
+    
+</project>

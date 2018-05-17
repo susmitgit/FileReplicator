@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specification idlFileName="FileExample.idl">
+<module name="com">
+<module name="rti">
+<module name="dds">
+<module name="example">
+<module name="file">
+<module name="messages">
+<const value="51200" name="MAX_FILE_SEGMENT_SIZE" type="long"/>
+<const value="1022" name="MAX_PATH_COMPONENT_SIZE" type="long"/>
+<struct name="FileDescription">
+<member visibility="" pointer="no" enum="no" type="string" name="name" maxLengthString="(com::rti::dds::example::file::messages::MAX_PATH_COMPONENT_SIZE.VALUE)"/>
+<member visibility="" pointer="no" enum="no" type="string" name="path" maxLengthString="(com::rti::dds::example::file::messages::MAX_PATH_COMPONENT_SIZE.VALUE)"/>
+<member visibility="" pointer="no" enum="no" type="longlong" name="size"/>
+<member visibility="" pointer="no" enum="no" type="longlong" name="lastModifiedDate"/>
+</struct>
+<directive kind="top-level">false</directive>
+<struct name="FileSegment">
+<member visibility="" pointer="no" enum="no" type="com::rti::dds::example::file::messages::FileDescription" name="fileDescription"/>
+<member visibility="" pointer="no" enum="no" type="long" name="segmentNumber"/>
+<member visibility="" pointer="no" enum="no" type="long" name="totalSegmentCount"/>
+<member visibility="" pointer="no" enum="no" type="octet" name="contents" kind="sequence" maxLengthSequence="(com::rti::dds::example::file::messages::MAX_FILE_SEGMENT_SIZE.VALUE)" bounded="yes"/>
+</struct>
+</module>
+</module>
+</module>
+</module>
+</module>
+</module>
+</specification>

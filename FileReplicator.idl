@@ -1,0 +1,28 @@
+module com {
+    module rti {
+        module dds {
+            module example {
+                module file {
+                    module messages {
+                      const long MAX_FILE_SEGMENT_SIZE = 50000;
+                      const long MAX_PATH_COMPONENT_SIZE = 1022;
+
+                      struct FileDescription {
+                        string<MAX_PATH_COMPONENT_SIZE> name;
+                        string<MAX_PATH_COMPONENT_SIZE> path;
+                        long long size;
+                        long long lastModifiedDate;
+                      }; //@top-level false
+                      
+                      struct FileSegment {
+                        FileDescription fileDescription;
+                        long segmentNumber;
+                        long totalSegmentCount;
+                        sequence<octet, MAX_FILE_SEGMENT_SIZE> contents;
+                      };
+                    };
+                };
+            };
+        };
+    };
+};
